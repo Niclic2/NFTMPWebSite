@@ -1,0 +1,116 @@
+body {
+    background-color: #121115;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: #f0f0f0;
+    min-height: 100vh;
+    /* Для позиционирования фоновых картинок относительно body, если main не будет на всю высоту */
+    position: relative; /* Устанавливаем body как контекст позиционирования */
+    overflow: hidden; /* Скрываем все, что выходит за пределы body, если картинки слишком большие */
+}
+
+header {
+    /*background-color: #1a191d; /* Можно убрать, если шапка должна быть прозрачной */
+    padding: 20px; /* Отступы сверху/снизу для логотипа */
+    display: flex; /* Используем Flexbox */
+    justify-content: center; /* Центрируем содержимое по горизонтали */
+    align-items: center; /* Центрируем содержимое по вертикали (если шапка имеет высоту) */
+    position: relative; /* Если хочешь, чтобы логотип был поверх других элементов */
+    z-index: 10; /* Устанавливаем z-index, чтобы логотип был поверх фоновых картинок */
+}
+
+.logo {
+    max-width: 233px;
+    height: auto;
+    display: block;
+}
+
+.background-images-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Чтобы не перехватывал клики */
+    z-index: 1; /* Под логотипом */
+}
+
+.bg-image-overlay {
+    position: absolute; /* Позиционируем относительно .background-images-container */
+    opacity: 0.7; /* Общая прозрачность для элемента */
+    z-index: 2;
+
+    background-repeat: no-repeat;
+    background-position: center; /* Центрировать фоновое изображение внутри div */
+    background-size: cover; /* Используем cover, чтобы изображение всегда полностью заполняло div, сохраняя пропорции */
+}
+
+.bg-image-1 {
+    /* Позиционирование */
+    top: 0;
+    left: 0;
+
+    /* АДАПТИВНЫЕ РАЗМЕРЫ */
+    width: 50vw; /* Ширина 50% от ширины окна просмотра */
+    height: 29.3vw; /* Высота рассчитана как 50vw * (601/1025) = 50vw * 0.586 = 29.3vw */
+
+    background-image:
+        radial-gradient(
+            ellipse at center,
+            transparent 0%,
+            #121115 70%,
+            #121115 100%
+        ),
+        url('images/backcity1.png');
+    background-position: top left; /* Прижимаем изображение к верхнему левому углу div */
+}
+
+.bg-image-2 {
+    /* Позиционирование */
+    bottom: 0;
+    right: 0;
+
+    /* АДАПТИВНЫЕ РАЗМЕРЫ */
+    width: 45vw; /* Ширина 45% от ширины окна просмотра */
+    height: 25.7vw; /* Высота рассчитана как 45vw * (575/1007) = 45vw * 0.571 = 25.7vw */
+
+    background-image:
+        radial-gradient(
+            ellipse at center,
+            transparent 0%,
+            #121115 70%,
+            #121115 100%
+        ),
+        url('images/backcity2.png');
+    background-position: bottom right; /* Прижимаем изображение к нижнему правому углу div */
+}
+
+.gradient-overlay {
+    position: absolute; /* Позиционируем относительно .background-images-container */
+    width: 55.859375vw; /* Примерная ширина, подбери из Figma */
+    height: 29.6875vw; /* Примерная высота, чтобы был круглый или эллиптический эффект */
+    border-radius: 50%; /* Сделает div круглым (для лучшего эффекта размытия) */
+    filter: blur(200px); /* Применяем размытие к самому элементу */
+    opacity: 0.5; /* Если нужно, чтобы они были полупрозрачными */
+    z-index: 3; /* Помещаем ПОД bg-image-overlay (у которого z-index: 2) */
+    pointer-events: none; /* Чтобы не перехватывали клики */
+}
+
+/* Специфичные стили для синего градиента */
+.gradient-blue {
+    background: linear-gradient(to right, #2502FB, #28D8FF);
+    /* Точное позиционирование относительно background-images-container */
+    top: 8.229166vh; /* 79px на 960px */
+    left: 37.752604vw; /* 580px на 1536px */
+    /* Если нужно, чтобы он был по центру, например: */
+    /* top: 50%; left: 50%; transform: translate(-50%, -50%); */
+}
+
+/* Специфичные стили для голубого градиента */
+.gradient-cyan {
+    background: linear-gradient(to right, #2502FB, #28D8FF);
+    /* Точное позиционирование относительно background-images-container */
+    top: 41.875vh; /* 402px на 960px */
+    left: -3.580729vw; /* -55px на 1536px */
+}
