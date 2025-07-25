@@ -12,18 +12,67 @@ body {
 
 header {
     /*background-color: #1a191d; /* Можно убрать, если шапка должна быть прозрачной */
-    padding: 20px; /* Отступы сверху/снизу для логотипа */
-    display: flex; /* Используем Flexbox */
-    justify-content: center; /* Центрируем содержимое по горизонтали */
-    align-items: center; /* Центрируем содержимое по вертикали (если шапка имеет высоту) */
-    position: relative; /* Если хочешь, чтобы логотип был поверх других элементов */
-    z-index: 10; /* Устанавливаем z-index, чтобы логотип был поверх фоновых картинок */
+    padding: 20px; /* Оставляем padding для отступов от краев */
+    display: grid;
+    grid-template-columns: repeat(12, 1fr); /* 12 равных колонок */
+    align-items: center; /* Выравнивание по вертикали */
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    box-sizing: border-box;
 }
 
+.logo-link {
+    display: flex; /* Чтобы img внутри был центрирован, если нужно */
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Логотип не будет сжиматься */
+}
 .logo {
     max-width: 233px;
     height: auto;
     display: block;
+}
+
+.nav-left,
+.nav-right {
+    display: flex; /* Flexbox для кнопок внутри */
+    gap: 60px;
+    align-items: center;
+    /* Убираем justify-self: start/end; так как будем использовать grid-column для позиционирования центра */
+}
+
+.nav-button {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+.nav-button:hover {
+    color: #CCCCCC; /* Цвет текста при наведении, можно выбрать другой */
+}
+
+/* Адаптивность для навигации */
+/* Медиа-запрос для экранов поменьше, где кнопки могут не поместиться */
+@media (min-width: 769px) {
+    .nav-left {
+        grid-column: 2 / 6; /* Занимает колонки 2,3,4,5. Центр - линия 4. */
+        justify-self: center;
+    }
+    .logo-link {
+        grid-column: 6 / 8; /* Занимает колонки 6,7. Центр - линия 7. */
+        justify-self: center;
+    }
+    .nav-right {
+        grid-column: 8 / 12; /* Занимает колонки 8,9,10,11. Центр - линия 10. */
+        justify-self: center;
+    }
 }
 
 .background-images-container {
@@ -113,4 +162,365 @@ header {
     /* Точное позиционирование относительно background-images-container */
     top: 41.875vh; /* 402px на 960px */
     left: -3.580729vw; /* -55px на 1536px */
+}
+
+.hero-text-container {
+    position: absolute;
+    /* Вместо 50%/50% и translate, давайте попробуем позиционировать контейнер,
+       чтобы его левый верхний угол был ориентиром для смещений.
+       Предположим, что в Figma верхний левый угол "NFT MARKET" находится
+       примерно на 20% от верха и 30% от левого края (это пример, нужно измерить).
+    */
+    top: 20%; /* Пример, нужно измерить из Figma */
+    left: 30%; /* Пример, нужно измерить из Figma */
+    /* width: 80%; max-width: 1200px; /* Можно убрать, если текст сам определяет ширину */
+    text-align: left; /* Важно для выравнивания */
+    z-index: 5;
+    pointer-events: none;
+    /* Для адаптивности:
+       Если контейнер должен быть центрирован, то transform: translate(-50%, -50%);
+       Если он должен быть привязан к конкретным vw/vh координатам, то top/left в vw/vh.
+       Давайте вернем центрирование, так как это более универсально для большого текста.
+    */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%; /* Контейнер на всю ширину, чтобы дочерние элементы могли смещаться */
+    max-width: 1536px; /* Максимальная ширина контейнера, чтобы текст не был слишком большим */
+    box-sizing: border-box; /* Учитываем padding */
+    padding: 0 5vw; /* Небольшой отступ от краев экрана */
+}
+
+.hero-title {
+    /* Размер шрифта 128px. Используем clamp() для адаптивности.
+       clamp(минимальный_размер, предпочтительный_размер_vw, максимальный_размер)
+       Предположим:
+       - Минимальный размер: 40px (для мобильных)
+       - Предпочтительный размер: (128 / 1536) * 100vw = 8.33vw
+       - Максимальный размер: 128px
+    */
+    font-size: clamp(40px, 8.33vw, 128px);
+    color: #FFFFFF;
+    font-weight: bold;
+    line-height: 1;
+    white-space: nowrap; /* Чтобы текст не переносился */
+    text-transform: uppercase; /* Если в Figma он в верхнем регистре */
+
+    /* Позиционирование: "чуть выше середины и смещен немного направо" */
+    /* Используем transform для смещения, чтобы не влиять на поток документа */
+    transform: translateY(-50%) translateX(10%); /* Смещение вверх на 50% от своей высоты и вправо на 10% от своей ширины */
+    /* Или более простое смещение относительно родителя, если hero-text-container уже центрирован */
+    position: relative; /* Для top/left смещений */
+    top: -14vw; /* Смещение вверх относительно размера шрифта */
+    left: 13%; /* Смещение вправо относительно ширины контейнера */
+    text-align: left; /* Выравнивание текста внутри его блока */
+}
+
+.hero-subtitle {
+    /* Размер шрифта 128px. Применяем те же принципы, но можно сделать чуть меньше, если нужно */
+    font-size: clamp(40px, 8.33vw, 128px); /* Или чуть меньше, например clamp(30px, 6vw, 100px); */
+    color: #FFFFFF;
+    font-weight: normal; /* Или bold, если так в Figma */
+    line-height: 1;
+    white-space: nowrap; /* Чтобы текст не переносился */
+    text-transform: uppercase; /* Если в Figma он в верхнем регистре */
+
+    /* Позиционирование: "в 10 пикселях под NFT MARKET текста и смещен чуть ли не максимально налево" */
+    position: relative;
+    margin-top: -18vw; /* Отступ в 10px под предыдущим текстом */
+    left: -15%; /* Смещение влево относительно ширины контейнера */
+    text-align: left; /* Выравнивание текста внутри его блока */
+
+    /* Эффект "наискось" */
+    transform: skewX(-10deg); /* Наклон по оси X на -15 градусов. Настрой значение. */
+    /* Можно добавить rotate, если это именно поворот: transform: rotate(-5deg); */
+    /* Если нужно и наклон, и поворот, и смещение, комбинируй:
+       transform: translateX(-50%) skewX(-15deg) rotate(-5deg);
+       Порядок трансформаций важен!
+    */
+}
+
+/* Медиа-запросы для адаптации текста на разных экранах */
+/* С использованием clamp() медиа-запросы для font-size могут быть не нужны,
+   но могут быть нужны для настройки top/left смещений. */
+@media (max-width: 768px) {
+    .hero-title {
+        /* Если нужно изменить смещение на мобильных */
+        left: 5%;
+        top: -1em;
+    }
+    .hero-subtitle {
+        /* Если нужно изменить смещение на мобильных */
+        left: -5%;
+        transform: skewX(-10deg); /* Меньший наклон на мобильных */
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        left: 0;
+        top: -0.5em;
+    }
+    .hero-subtitle {
+        left: 0;
+        transform: skewX(0deg); /* Без наклона на самых маленьких */
+    }
+}
+
+.cta-section {
+    position: absolute; /* Позиционируем относительно body */
+    top: 50%; /* Вертикальное центрирование */
+    left: 3%; /* Смещение всей секции влево (настрой это значение!) */
+    transform: translateY(-50%); /* Компенсация для вертикального центрирования */
+    z-index: 5; /* Поверх фоновых картинок */
+    pointer-events: none; /* Контейнер не перехватывает клики */
+
+    display: flex; /* Используем Flexbox для расположения кнопок и текста */
+    align-items: center; /* Выравнивание элементов по центру по вертикали */
+    gap: 2vw; /* Расстояние между блоком кнопок и блоком текста (адаптивное) */
+    width: 62%; /* Примерная ширина, чтобы flex-элементы могли распределиться */
+    max-width: 1200px; /* Максимальная ширина секции */
+    box-sizing: border-box;
+    padding-left: 2vw; /* Небольшой отступ от левого края, если left: 0; */
+}
+
+.cta-buttons {
+    display: flex; /* Flexbox для кнопок внутри */
+    gap: 20px; /* Расстояние между кнопками */
+    pointer-events: auto; /* Кнопки должны быть кликабельны! */
+    flex-shrink: 0; /* Чтобы кнопки не сжимались, если места мало */
+}
+
+.cta-button {
+    display: inline-flex; /* Используем flex для центрирования текста */
+    justify-content: center; /* Центрируем текст по горизонтали */
+    align-items: center; /* Центрируем текст по вертикали */
+    width: 233px; /* Убираем фиксированную ширину, чтобы кнопки подстраивались под контент */
+    height: 79px; /* Убираем фиксированную высоту */
+    padding: 15px 30px; /* Отступы внутри кнопки (настрой под Figma) */
+    text-decoration: none;
+    font-size: clamp(14px, 1.2vw, 18px);
+    font-weight: bold;
+    border-radius: 40px; /* Скругление углов 20 пикселей */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    white-space: nowrap; /* Чтобы текст не переносился */
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.cta-button.primary {
+    background-color: #FFE924; /* Желтый цвет заливки */
+    color: #000000; /* Черный текст */
+    border: none; /* Нет рамки, так как заливка */
+}
+
+.cta-button.primary:hover {
+    background-color: #FFD700; /* Чуть темнее желтый при наведении */
+}
+
+.cta-button.secondary {
+    background-color: transparent; /* Прозрачный фон */
+    color: #03F0FF; /* Голубой текст */
+    border: 1px solid #03F0FF; /* Голубая рамка в 1px */
+}
+
+.cta-button.secondary:hover {
+    background-color: #03F0FF; /* Заливка голубым при наведении */
+    color: #121115; /* Темный текст при наведении */
+}
+
+.cta-description {
+    color: #03F0FF; /* Голубой цвет текста */
+    font-size: clamp(12px, 1vw, 16px);
+    line-height: 1.45;
+    pointer-events: auto;
+    flex-grow: 1;
+    text-align: left;
+}
+
+/* Медиа-запросы для адаптации секции */
+@media (max-width: 1024px) {
+    .cta-section {
+        left: 10%;
+        gap: 3vw;
+    }
+    .cta-buttons {
+        gap: 10px;
+    }
+    .cta-button {
+        padding: 12px 25px; /* Немного меньше padding на средних экранах */
+    }
+}
+
+@media (max-width: 768px) {
+    .cta-section {
+        flex-direction: column;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        gap: 20px;
+    }
+    .cta-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    .cta-button {
+        width: 100%; /* Кнопки растягиваются на всю ширину родителя */
+        padding: 15px 20px; /* Адаптивный padding */
+    }
+    .cta-description {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .cta-section {
+        top: 60%;
+    }
+    .cta-button {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+    .cta-description {
+        font-size: 14px;
+    }
+}
+
+.bottom-cta-section {
+    position: absolute; /* Абсолютное позиционирование */
+    bottom: 2vw; /* Отступ от нижнего края */
+    left: 4vw; /* ОТСТУП ОТ ЛЕВОГО КРАЯ (настрой это значение!) */
+    /* Убираем transform: translateX(-50%); так как теперь привязка к левому краю */
+    z-index: 5; /* Поверх фоновых картинок */
+    display: flex; /* Для расположения трех кнопок рядом */
+    gap: 30px; /* Расстояние между кнопками (настрой) */
+    pointer-events: none; /* Контейнер не перехватывает клики */
+}
+
+
+.bottom-cta-card {
+    position: relative; /* Контекст позиционирования для внутренних элементов */
+    width: 380px; /* Ширина всей кнопки (из Figma) */
+    height: 360px; /* Высота всей кнопки (из Figma) */
+    background-color: transparent; /* Сама карточка прозрачна */
+    border-radius: 20px; /* Закругленные края для всей кнопки */
+    overflow: hidden; /* Обрезаем все, что выходит за границы и закругления */
+    cursor: pointer;
+    pointer-events: auto;
+    transition: transform 0.3s ease; /* Анимация наведения */
+}
+
+.bottom-cta-card:hover {
+    transform: scale(1.1);
+}
+
+.rectangle-card {
+    position: absolute; /* Позиционируем внутри bottom-cta-card */
+    width: 360px; /* Ширина прямоугольника (из Figma) */
+    height: 220px; /* Высота прямоугольника (из Figma) */
+    border-radius: 40px; /* Закругленные края */
+    background: linear-gradient(270deg, #FFE924 0%, #00F0FF 100%); /* Твой градиент */
+    z-index: 1; /* Самый нижний слой внутри bottom-cta-card */
+
+    /* Центрирование прямоугольника внутри bottom-cta-card */
+    top: 60.5%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Компенсация для центрирования */
+}
+
+.card-background-image {
+    position: absolute; /* Абсолютное позиционирование внутри .bottom-cta-card */
+    width: 360px; /* Ширина картинки (из Figma) */
+    height: 320px; /* Высота картинки (из Figma) */
+    object-fit: cover; /* Обрезаем изображение, чтобы оно заполняло контейнер */
+    z-index: 2; /* Поверх rectangle-card */
+    border-radius: 40px;
+
+    /* Центрирование картинки внутри bottom-cta-card */
+    top: 46.55%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Компенсация для центрирования */
+}
+
+.plus-circle {
+    position: absolute; /* Абсолютное позиционирование внутри .bottom-cta-card */
+    width: 60px; /* Размер круга (из Figma) */
+    height: 60px; /* Размер круга (из Figma) */
+    background-color: #D9D9D980; /* Цвет круга */
+    border-radius: 50%; /* Делаем круглым */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3; /* Поверх всего */
+    pointer-events: auto;
+
+    top: calc(91% - 30px); /* 50% (центр bottom-cta-card) + половина высоты rectangle-card (100px) - половина высоты plus-circle (30px) */
+    transform: translate(-50%, 50%); /* Смещаем вверх на половину своей высоты */
+    bottom: calc((320px - 200px) / 2); /* Расстояние от нижнего края bottom-cta-card до нижнего края rectangle-card */
+    left: 50%;
+    transform: translateX(-50%); /* Горизонтальное центрирование */
+}
+
+.plus-icon {
+    color: #FFFFFF;
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.spongebob-image {
+    position: absolute;
+    bottom: -300px; /* Отступ от нижнего края */
+    right: -300px; /* Отступ от правого края */
+    width: 800px; /* Желаемая ширина */
+    height: auto; /* Сохраняем пропорции */
+    z-index: 100;
+    pointer-events: none;
+
+    transform: rotateZ(157deg); /* Поворот на 180 градусов по оси Y (зеркальное отражение) */
+    transition: bottom 0.3s ease-out, right 0.3s ease-out; /* Анимируем bottom и right */
+}
+
+.spongebob-image.active {
+    bottom: -225px; /* Новое положение: отступ от нижнего края */
+    right: -225px; /* Новое положение: отступ от правого края */
+    /* Эти значения нужно подобрать, чтобы он выезжал куда нужно */
+}
+
+.cat-card {
+    position: absolute;
+    top: 300px; /* Отступ от нижнего края */
+    right: 200px; /* Отступ от правого края */
+    z-index: 7;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: transform 0.3s ease;
+}
+
+.cat-card.enlarged {
+    transform: scale(1.2); /* Увеличиваем на 1.1 */
+}
+
+.cat-image {
+    position: absolute;
+    width: 250px; /* Желаемая ширина */
+    height: auto; /* Сохраняем пропорции */
+    z-index: 2;
+    pointer-events: none;
+}
+
+.cat-pilula {
+    position: absolute; /* Абсолютное позиционирование внутри .bottom-cta-card */
+    width: 270px; /* Размер круга (из Figma) */
+    height: 180px; /* Размер круга (из Figma) */
+    background: linear-gradient(220deg, #FFE924 0%, #00F0FF 100%);
+    border-radius: 50%; /* Делаем круглым */
+    z-index: 1; /* Поверх всего */
+    pointer-events: auto;
+
+    transform: rotateZ(137deg); /* Поворот на 180 градусов по оси Y (зеркальное отражение) */
 }

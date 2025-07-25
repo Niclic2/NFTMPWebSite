@@ -9,18 +9,79 @@
 <body>
 
     <header>
+        <nav class="nav-left">
+            <a href="#" class="nav-button">Коллекции</a>
+            <a href="#" class="nav-button">Акции</a>
+            <a href="#" class="nav-button">Вайт-лист</a>
+        </nav>
+
         <a href="/" class="logo-link">
             <img src="images/logo.png" alt="Логотип вашей компании" class="logo">
         </a>
+
+        <nav class="nav-right">
+            <a href="#" class="nav-button">Создать NFT</a>
+            <a href="#" class="nav-button">Топы</a>
+            <a href="#" class="nav-button">Контакты</a>
+        </nav>
     </header>
 
-    <div class="background-images-container"> <!-- Изменил класс, чтобы не путать с предыдущим подходом -->
+    <div class="hero-text-container">
+        <div class="hero-title">NFT MARKET</div>
+        <div class="hero-subtitle">СО СКИДКАМИ</div>
+    </div>
+
+    <div class="cta-section">
+        <div class="cta-buttons">
+            <a href="#" class="cta-button primary" id="buyNftButton">Купить NFT</a>
+            <a href="#" class="cta-button secondary" id="galleryButton">Галерея</a>
+        </div>
+        <div class="cta-description">
+            <p>
+                NFT, также уника́льный то́кен — вид криптографических токенов, каждый экземпляр которых уникален и не может быть заменён или замещён другим аналогичным токеном, хотя обычно токены взаимозаменяемы по своей природе
+            </p>
+        </div>
+    </div>
+
+    <div class="bottom-cta-section">
+        <div class="bottom-cta-card">
+            <div class="rectangle-card"></div>
+            <img src="images/kaban.png" alt="Фоновая картинка для кнопки" class="card-background-image">
+            <div class="plus-circle">
+                <span class="plus-icon">+</span>
+            </div>
+        </div>
+        <div class="bottom-cta-card">
+            <div class="rectangle-card"></div>
+            <img src="images/makaka.png" alt="Фоновая картинка для кнопки" class="card-background-image">
+            <div class="plus-circle">
+                <span class="plus-icon">+</span>
+            </div>
+        </div>
+        <div class="bottom-cta-card">
+            <div class="rectangle-card"></div>
+            <img src="images/geroin.png" alt="Фоновая картинка для кнопки" class="card-background-image">
+            <div class="plus-circle">
+                <span class="plus-icon">+</span>
+            </div>
+        </div>
+    </div>
+
+    <img src="images/sbob.png" alt="Спанчбоб" class="spongebob-image">
+    <div class="cat-card" id="catCard">   
+        <img src="images/cat.png" alt="Кот" class="cat-image">
+        <div class="cat-pilula"></div>
+    </div>
+
+    <div class="background-images-container">
         <div class="gradient-overlay gradient-blue"></div>
         <div class="gradient-overlay gradient-cyan"></div>
 
         <div class="bg-image-overlay bg-image-1"></div>
         <div class="bg-image-overlay bg-image-2"></div>
     </div>
+
+    <script src="script.js" defer></script>
 
 </body>
 </html>
